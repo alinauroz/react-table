@@ -57,7 +57,7 @@ function applyDefaults(props) {
 export const useTable = (props, ...plugins) => {
   // Apply default props
   const spanList = props.spanList;
-  const middleRenderrerList = props.middleRenderrerList;
+  const middleRenderrerList = props.middleRenderrerList || {};
   props = applyDefaults(props)
 
   // Add core plugins
