@@ -3,17 +3,31 @@ const cellStyles = {
   boxSizing: 'border-box',
 }
 
+const getId = cell => {
+  let role = 'cell';
+  return role + '_' + cell.row.id + '_' + cell.column.id;
+}
+
+const getSpanStyles = count => {
+  return {
+    height: count * 35,
+    zIndex: count,
+    background: "white"
+  }
+}
+
 const getRowStyles = (props, { instance }) => [
   props,
   {
     style: {
       display: 'flex',
+
       width: `${instance.totalColumnsWidth}px`,
     },
   },
 ]
 
-export const useBlockLayout = hooks => {
+export const useBlockLayout = (hooks, spanList = {}) => {
   hooks.getRowProps.push(getRowStyles)
   hooks.getHeaderGroupProps.push(getRowStyles)
   hooks.getFooterGroupProps.push(getRowStyles)
@@ -28,15 +42,24 @@ export const useBlockLayout = hooks => {
     },
   ])
 
-  hooks.getCellProps.push((props, { cell }) => [
+  hooks.getCellProps.push((props, { cell }) => {
+    let id = getId(cell);
+    let spanStyles = {};
+
+    if (id in spanList) {
+      spanStyles = getSpanStyles(spanList[id]);
+    }
+
+    return [
     props,
     {
       style: {
         ...cellStyles,
+        ... spanStyles,
         width: `${cell.column.totalWidth}px`,
       },
     },
-  ])
+  ]})
 
   hooks.getFooterProps.push((props, { column }) => [
     props,

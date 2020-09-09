@@ -198,6 +198,7 @@ export function useAsyncDebounce(defaultFn, defaultWait = 0) {
 
 export function makeRenderer(instance, column, meta = {}) {
   return (type, userProps = {}) => {
+    console.log(instance, column)
     const Comp = typeof type === 'string' ? column[type] : type
 
     if (typeof Comp === 'undefined') {
