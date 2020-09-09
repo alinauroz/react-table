@@ -58,6 +58,7 @@ export const useTable = (props, ...plugins) => {
   // Apply default props
   const spanList = props.spanList;
   const middleRenderrerList = props.middleRenderrerList || {};
+  const onValueChange = props.onValueChange;
   props = applyDefaults(props)
 
   // Add core plugins
@@ -410,7 +411,7 @@ export const useTable = (props, ...plugins) => {
 
         if (column.id in middleRenderrerList) {
           let Comp = middleRenderrerList[column.id];
-          value = <Comp value = {value}/>
+          value = <Comp value = {value} data = {{column: column.id, row: row.id}} onValueChange = {onValueChange} />
         }
 
         const cell = {
