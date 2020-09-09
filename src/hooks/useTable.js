@@ -57,6 +57,7 @@ function applyDefaults(props) {
 export const useTable = (props, ...plugins) => {
   // Apply default props
   const spanList = props.spanList;
+  const middleRenderrerList = props.middleRenderrerList;
   props = applyDefaults(props)
 
   // Add core plugins
@@ -404,7 +405,13 @@ export const useTable = (props, ...plugins) => {
 
       // Build the visible cells for each row
       row.allCells = allColumns.map(column => {
-        const value = row.values[column.id]
+        
+        let value = row.values[column.id];
+
+        if (column.id in middleRenderrerList) {
+          let Comp = middleRenderrerList[column.id];
+          value = <Comp value = {value}/>
+        }
 
         const cell = {
           column,
